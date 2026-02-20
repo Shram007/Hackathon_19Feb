@@ -1,0 +1,6 @@
+{
+  "routes": [
+    { "src": "/api/ag-ui-proxy/(.*)", "dest": "/api/ag-ui-proxy" },
+    { "src": "/(.*)", "dest": "/" }
+  ]
+}

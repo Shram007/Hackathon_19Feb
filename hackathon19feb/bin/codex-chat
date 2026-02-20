@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Ensure Jam MCP token and config are loaded
+if [ -f "$HOME/.bashrc" ]; then
+  # shellcheck disable=SC1090
+  . "$HOME/.bashrc"
+fi
+
+if ! command -v codex >/dev/null 2>&1; then
+  echo "codex CLI not found in PATH." >&2
+  exit 1
+fi
+
+echo "Using Codex with MCP servers:"
+codex mcp list
+echo
+echo "Starting Codex chat..."
+
+# If codex chat is available, run it; otherwise print a helpful message.
+if codex help 2>&1 | grep -q "chat"; then
+  exec codex chat "$@"
+else
+  echo "The current Codex CLI doesn't expose a 'chat' subcommand in this environment." >&2
+  echo "Open the Codex Chat panel via VS Code (Ctrl+Shift+P → 'Codex: Open Chat')." >&2
+  exit 1
+fi
